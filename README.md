@@ -1,68 +1,80 @@
-# SCUT元宇宙交互系统 --小组作业项目
+# SCUT GZIC 校园元宇宙
 
 ## 项目简介
-本项目为大学小组作业，基于 Unreal Engine 5 开发，包含角色蓝图、动画蓝图、输入系统等内容。支持跳跃、奔跑等基础功能。
 
----
+本仓库是华南理工大学广州国际校区（SCUT GZIC）的校园元宇宙课程小组项目，使用 Unreal Engine 5.2 开发。
+
+校园地图使用 Luma AI 插件导入的高斯泼溅场景搭建，资源位于 `Content/Scenes`。项目包含角色蓝图、动画蓝图和 Enhanced Input 输入资源；玩家角色支持跳跃与奔跑。
+
+- 角色蓝图位于 `Content/_Game/Character`，玩家蓝图为 `BP_SCUTPlayerCharacter`。
+- 动画蓝图位于 `Content/Animations`。玩家的待机、行走、奔跑与跳跃动画位于 `Content/Source/BP_SCUTPlayerCharacter`。
+- 输入动作包括 `IA_Move`、`IA_Look`、`IA_Jump` 和 `IA_Run`，位于 `Content/_Game/Character/MainCharacter/Input`。
+- 关卡包括菜单、教室、食堂、图书馆、教学楼、宿舍（地图文件名为 `domitory`）和主路。默认启动关卡为 `Content/Menu`。
 
 ## 环境要求
-- Unreal Engine 5.x（建议与组长/小组统一版本）
-- Visual Studio 2022（或兼容的VS版本，需安装C++开发组件）
-- Git（用于版本管理）
 
----
+- Unreal Engine 5.2，与 `scut.uproject` 中的引擎版本一致。
+- Visual Studio 2022，并安装 `.vsconfig` 中列出的 C++ 与游戏开发组件。
+- Git 与 Git LFS。`.uasset`、`.umap` 等资源通过 Git LFS 管理。
 
-## 如何使用本项目
+`LumaAIPlugin` 已在工程中启用，插件来自虚幻商城，不包含在本仓库内。若打开工程时提示缺少该插件，请先安装后再进入编辑器。
 
-### 1. 克隆项目代码
+## 如何使用
+
+### 1. 克隆仓库
+
 ```bash
-git clone https://github.com/你们组名/项目名.git
+git lfs install
+git clone https://github.com/chenwudao/MetaUniverse-for-SCUT-GZIC.git
 ```
 
-### 2. 生成 Visual Studio 工程文件
-1. 找到项目根目录（有 `.uproject` 文件的那个目录）。
-2. 右键 `.uproject` 文件，选择 **"Generate Visual Studio project files"（生成VS工程文件）**。
-   - 或者在命令行输入：
-     ```
-     "C:\Program Files\Epic Games\UE_5.x\Engine\Binaries\Win64\UnrealVersionSelector.exe" /projectfiles YourProject.uproject
-     ```
-3. 生成后会出现 `.sln` 文件。
+克隆后请确认 `Content` 中的资源已由 Git LFS 检出，而不是只留下指针文件。
 
-### 3. 用 Visual Studio 打开并编译
-1. 双击 `.sln` 文件，用 Visual Studio 打开。
-2. 选择 `Development Editor` 配置，平台选 `Win64`。
-3. 右键解决方案，选择 **生成（Build）**。
+### 2. 生成 Visual Studio 工程
 
-### 4. 启动 Unreal Editor
-1. 双击 `.uproject` 文件，启动 Unreal Editor。
-2. 第一次打开会自动编译C++代码。
+1. 在仓库根目录找到 `scut.uproject`。
+2. 右键该文件，选择 **Generate Visual Studio project files**（生成 Visual Studio 工程文件）。
+3. 也可以在命令行执行。请按本机引擎安装路径调整：
 
----
+```bat
+"C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\Win64\UnrealVersionSelector.exe" /projectfiles scut.uproject
+```
 
-## 关于 .uasset 资源文件
-- 所有蓝图、动画、输入设置等资源都在 `Content/` 文件夹下。
-- **确保 `Content/` 文件夹完整上传和下载，否则蓝图和动画会丢失！**
-- 不需要手动导入 `.uasset`，只要 `Content/` 文件夹在项目里，UE会自动识别。
+生成成功后，根目录会出现 `scut.sln`。该文件已列入 `.gitignore`，无需提交。
 
----
+### 3. 编译
+
+1. 用 Visual Studio 2022 打开 `scut.sln`。
+2. 配置选择 **Development Editor**，平台选择 **Win64**。
+3. 生成解决方案。
+
+### 4. 打开编辑器
+
+双击 `scut.uproject` 启动 Unreal Editor。首次打开时会编译 C++ 代码。
+
+## 资源文件
+
+蓝图、动画、输入和场景资源都在 `Content` 中。编辑器会直接识别这些 `.uasset`，无需单独导入。
+
+请保持 `Content` 完整。资源缺失时，角色蓝图、动画蓝图和关卡将无法打开。拉取或推送前，请确认 Git LFS 已安装。
 
 ## 常见问题
 
-### Q: 蓝图/动画蓝图/输入设置丢失？
-A: 检查 `Content/` 文件夹是否完整，`.uasset` 文件是否都在。
+### 蓝图、动画蓝图或输入资源丢失
 
-### Q: 编译报错？
-A: 检查UE版本和VS组件是否一致，必要时右键 `.uproject` 重新生成VS工程文件。
+检查 `Content` 是否完整，并确认 Git LFS 已将 `.uasset` 检出为实际文件。
 
-### Q: 运行时跳跃/动画没反应？
-A: 检查蓝图变量、输入映射、动画蓝图设置是否正确，参考小组文档或联系组员。
+### 编译失败
 
----
+确认使用的是 Unreal Engine 5.2，且 Visual Studio 已安装 `.vsconfig` 中的 C++ 组件。必要时右键 `scut.uproject`，重新生成 Visual Studio 工程后再编译。
 
-## 贡献说明
-- 提交前请拉取最新代码，避免冲突。
-- 只提交源码和 `Content/` 文件夹，`Binaries/`、`Intermediate/`、`Saved/` 文件夹无需上传。
+### 跳跃或动画没有反应
 
----
+检查玩家蓝图上的变量、Enhanced Input 映射，以及动画蓝图是否指向当前角色。跳跃与奔跑分别对应 `IA_Jump` 和 `IA_Run`。
 
-如有其他问题，请联系组长或在小组群内讨论。 
+## 协作约定
+
+- 提交前先拉取最新代码，以减少冲突。
+- 提交源码、配置和 `Content`。不要提交 `Binaries`、`DerivedDataCache`、`Intermediate`、`Saved` 等生成目录，这些目录已在 `.gitignore` 中忽略。
+
+其他问题请在课程小组内沟通。
